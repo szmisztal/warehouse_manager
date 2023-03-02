@@ -16,17 +16,33 @@ def get_items():
     print('Coffee', '\t', items['Coffee'][0], '\t' *2, items['Coffee'][1], '\t', items['Coffee'][2])
     return
 
+def add_items():
+    new_item = input("Name ?: ")
+    value_0 = input("Quantity ?: ")
+    value_1 = input("Unit ?: ")
+    value_2 = input("Unit price ?: ")
+
+    items.setdefault(new_item, []).append(value_0)
+    items[new_item].append(value_1)
+    items[new_item].append(value_2)
+    get_items()
+    print(new_item, '\t', value_0, '\t' * 2, value_1, '\t', value_2)
+    return
+
 def end():
     return print("Bye !"), exit()
 
 while True:
-    menu = input("What would you do ?: \n1 - Show \n2 - Exit \n")
-    if menu not in ['Show', 'Exit']:
+    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Exit \n")
+    if menu not in ['Show', 'Add', 'Exit']:
         print("Please choose another option.")
         continue
     
     elif menu == 'Show':
         get_items()
+
+    elif menu == 'Add':
+        add_items()
     
     elif menu == 'Exit':
         end()
