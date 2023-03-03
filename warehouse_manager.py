@@ -10,10 +10,10 @@ items = {
 def get_items():
     print("Name\tQuantity\tUnit\tUnit Price (PLN)")
     print('-----------------------------------------------------------')
-    print('Milk','\t', items['Milk'][0], '\t' * 2, items['Milk'][1], '\t', items['Milk'][2])
-    print('Sugar', '\t', items['Sugar'][0], '\t' *2, items['Sugar'][1], '\t', items['Sugar'][2])
-    print('Flour', '\t', items['Flour'][0], '\t' * 2, items['Flour'][1], '\t', items['Flour'][2])
-    print('Coffee', '\t', items['Coffee'][0], '\t' *2, items['Coffee'][1], '\t', items['Coffee'][2])
+    print([key for key in items.keys()][0],'\t', [value for value in items.values()][0][0], '\t' * 2, [value for value in items.values()][0][1], '\t', [value for value in items.values()][0][2])
+    print([key for key in items.keys()][1], '\t', [value for value in items.values()][1][0], '\t' *2, [value for value in items.values()][1][1], '\t', [value for value in items.values()][1][2])
+    print([key for key in items.keys()][2], '\t', [value for value in items.values()][2][0], '\t' * 2, [value for value in items.values()][2][1], '\t', [value for value in items.values()][2][2])
+    print([key for key in items.keys()][3], '\t', [value for value in items.values()][3][0], '\t' *2, [value for value in items.values()][3][1], '\t', [value for value in items.values()][3][2])
     return
 
 def add_items():
@@ -29,12 +29,26 @@ def add_items():
     print(new_item, '\t', value_0, '\t' * 2, value_1, '\t', value_2)
     return
 
+def sell_items():
+    product = input("Which product want to sell ?: ")
+    for key in items.keys():
+        if key == product:
+            product_quantity = float(input("How many ?: "))
+            new_quantity = items[product][0] - product_quantity
+            items[product][0] = new_quantity
+            get_items()
+    
+        elif product not in items.keys():
+            print("We dont have this product.")
+            break
+      
+
 def end():
     return print("Bye !"), exit()
 
 while True:
-    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Exit \n")
-    if menu not in ['Show', 'Add', 'Exit']:
+    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 -Sell \n4 - Exit \n")
+    if menu not in ['Show', 'Add', 'Sell', 'Exit']:
         print("Please choose another option.")
         continue
     
@@ -44,6 +58,9 @@ while True:
     elif menu == 'Add':
         add_items()
     
+    elif menu == 'Sell':
+        sell_items()
+        
     elif menu == 'Exit':
         end()
 
