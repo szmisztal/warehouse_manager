@@ -7,6 +7,8 @@ items = {
     'Coffee': [25, 'kg', 40]
 }
 
+sold_items = {}
+
 def get_items():
     print("Name\tQuantity\tUnit\tUnit Price (PLN)")
     print('-----------------------------------------------------------')
@@ -19,10 +21,7 @@ def add_items():
     value_0 = input("Quantity ?: ")
     value_1 = input("Unit ?: ")
     value_2 = input("Unit price ?: ")
-
-    items.setdefault(new_item, []).append(value_0)
-    items[new_item].append(value_1)
-    items[new_item].append(value_2)
+    items[new_item] = [value_0, value_1, value_2]
     get_items()
 
 def sell_items():
@@ -32,18 +31,24 @@ def sell_items():
             product_quantity = float(input("How many ?: "))
             new_quantity = float(items[product][0]) - product_quantity
             items[product][0] = new_quantity
+            sold_items[product] = [product_quantity, items[product][1], items[product][2]]
             get_items()
             
         elif product not in items.keys():
             print("We dont have this product.")
             break
 
+def get_cost():
+    cost = [value[0] * value[2] for key, value in items.items()]
+    print("All items cost is: ", sum(cost))
+    return
+
 def end():
     return print("Bye !"), exit()
 
 while True:
-    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Exit \n")
-    if menu not in ['Show', 'Add', 'Sell', 'Exit']:
+    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Cost \n5 - Exit \n")
+    if menu not in ['Show', 'Add', 'Sell', 'Cost', 'Exit']:
         print("Please choose another option.")
         continue
     
@@ -55,6 +60,9 @@ while True:
     
     elif menu == 'Sell':
         sell_items()
+    
+    elif menu == 'Cost':
+        get_cost()
         
     elif menu == 'Exit':
         end()
