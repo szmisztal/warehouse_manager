@@ -1,4 +1,5 @@
 import sys
+import csv
 
 items = {
     'Milk': [120, 'l', 2.3],
@@ -61,12 +62,24 @@ def show_revenue():
     print("Revenue:", round(revenue, 2))
     return
 
+def save_items():
+    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", 'w') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerows(items.items())
+        print("Datas saved.")
+
+def save_sales():
+    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\items_sales.csv", 'w') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerows(sold_items.items())
+        print("Sales saved.")
+
 def end():
     return print("Bye !"), exit()
 
 while True:
-    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Revenue \n7 - Exit \n")
-    if menu not in ['Show', 'Add', 'Sell', 'Costs', 'Income', 'Revenue', 'Exit']:
+    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Revenue \n7 - Save \n8 - Exit \n")
+    if menu not in ['Show', 'Add', 'Sell', 'Costs', 'Income', 'Revenue', 'Save', 'Exit']:
         print("Please choose another option.")
         continue
     
@@ -87,6 +100,10 @@ while True:
 
     elif menu == 'Revenue':
         show_revenue()
+
+    elif menu == 'Save':
+        save_items()
+        save_sales()
 
     elif menu == 'Exit':
         end()
