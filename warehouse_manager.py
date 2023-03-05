@@ -15,6 +15,8 @@ def get_items():
     print('-----------------------------------------------------------')
     for key, value in items.items():
         print(key, '\t', value[0], '\t' * 2, value[1], '\t', value[2])
+    print('-----------------------------------------------------------')
+    print('-----------------------------------------------------------')
     return
 
 def add_items():
@@ -22,25 +24,38 @@ def add_items():
     value_0 = input("Quantity ?: ")
     value_1 = input("Unit ?: ")
     value_2 = input("Unit price ?: ")
-    for key in items.keys():
-        if key == new_item:
-            value_0 = float(items[new_item][0]) + float(value_0)    
+    if new_item in items.keys():
+        value_0 = float(items[new_item][0]) + float(value_0)    
     items[new_item] = [value_0, value_1, value_2]
     get_items()
 
 def sell_items():
-    product = input("Which product want to sell ?: ")
-    for key in items.keys():
-        if key == product:
-            product_quantity = float(input("How many ?: "))
-            new_quantity = float(items[product][0]) - float(product_quantity)
-            items[product][0] = float(new_quantity)
-            sold_items[product] = [product_quantity, items[product][1], items[product][2]]
-            get_items()
+    product = input("What product do you want to sell ?: ")            
+    product_quantity = input("How much ?: ")
+    if product in items.keys():
+        new_quantity = float(items[product][0]) - float(product_quantity)
+        items[product][0] = float(new_quantity)
+        get_items()
             
-        elif product not in items.keys():
-            print("We dont have this product.")
-            break
+    elif product not in items.keys():
+        print("I do not have such a product.")
+    
+    if product not in sold_items.keys():
+        sold_items[product] = [product_quantity, items[product][1], items[product][2]]
+    
+    else:
+        sold_items[product] = [float(sold_items[product][0]) + float(product_quantity), sold_items[product][1], sold_items[product][2]]
+    
+    print('-----------------------------------------------------------')
+    print('-----------------------------------------------------------')
+    print("Sold items: ")  
+    print("Name\tQuantity\tUnit\tUnit Price (PLN)")
+    
+    for key, value in sold_items.items():
+        print(key, '\t', value[0], '\t' * 2, value[1], '\t', value[2])
+    print('-----------------------------------------------------------')
+    print('-----------------------------------------------------------')
+    return
 
 def get_cost():
     cost = [float(value[0]) * float(value[2]) for key, value in items.items()]
@@ -58,7 +73,7 @@ def show_revenue():
     revenue = sum(income) - sum(cost)
     print("Costs: ", sum(cost))
     print("Income: ", sum(income))
-    print("----------------------------------")
+    print('-----------------------------------------------------------')
     print("Revenue:", round(revenue, 2))
     return
 
