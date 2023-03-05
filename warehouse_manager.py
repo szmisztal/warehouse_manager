@@ -48,12 +48,22 @@ def get_income():
     print("Income is: ", sum(income))
     return
 
+def show_revenue():
+    cost = [value[0] * value[2] for key, value in items.items()]
+    income = [value[0] * value[2] for key, value in sold_items.items()]
+    revenue = sum(income) - sum(cost)
+    print("Costs: ", sum(cost))
+    print("Income: ", sum(income))
+    print("----------------------------------")
+    print("Revenue:", round(revenue, 2))
+    return
+
 def end():
     return print("Bye !"), exit()
 
 while True:
-    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Exit \n")
-    if menu not in ['Show', 'Add', 'Sell', 'Costs', 'Income', 'Exit']:
+    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Revenue \n7 - Exit \n")
+    if menu not in ['Show', 'Add', 'Sell', 'Costs', 'Income', 'Revenue', 'Exit']:
         print("Please choose another option.")
         continue
     
@@ -71,6 +81,9 @@ while True:
 
     elif menu == 'Income':
         get_income()
+
+    elif menu == 'Revenue':
+        show_revenue
         
     elif menu == 'Exit':
         end()
