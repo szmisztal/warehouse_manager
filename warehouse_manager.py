@@ -32,6 +32,7 @@ def add_items():
 def sell_items():
     product = input("What product do you want to sell ?: ")            
     product_quantity = input("How much ?: ")
+
     if product in items.keys():
         new_quantity = float(items[product][0]) - float(product_quantity)
         items[product][0] = float(new_quantity)
@@ -78,23 +79,53 @@ def show_revenue():
     return
 
 def save_items():
-    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", 'w') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerows(items.items())
-        print("Datas saved.")
+    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Product', 'Quantity', 'Unit', 'Unit Price'])
+        for key, value in items.items():
+            row = [key] + value
+            writer.writerow(row)
+    print("Datas saved.")
 
 def save_sales():
-    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\items_sales.csv", 'w') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerows(sold_items.items())
-        print("Sales saved.")
+    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\sales_items.csv", 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Product', 'Quantity', 'Unit', 'Unit Price'])
+        for key, value in sold_items.items():
+            row = [key] + value
+            writer.writerow(row) 
+    print("Sales saved.")
+
+def load():
+    items.clear()
+    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", newline='') as file:
+        reader = csv.reader(file)
+        headers = next(reader)
+        for row in reader:
+            key = row[0]
+            value1, value2, value3 = row[1:]
+            items[key] = [float(value1), value2, float(value3)]
+    print(items)
+    
+    sold_items.clear()
+    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\sales_items.csv", newline='') as file:
+        reader = csv.reader(file)
+        headers = next(reader)
+        for row in reader:
+            key = row[0]
+            value1, value2, value3 = row[1:]
+            sold_items[key] = [float(value1), value2, float(value3)]
+    print(sold_items)
+    
+    return
 
 def end():
-    return print("Bye !"), exit()
+    print('Bye !')
+    sys.exit()
 
 while True:
-    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Revenue \n7 - Save \n8 - Exit \n")
-    if menu not in ['Show', 'Add', 'Sell', 'Costs', 'Income', 'Revenue', 'Save', 'Exit']:
+    menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Revenue \n7 - Save \n8 - Load \n9 - Exit \n")
+    if menu not in ['Show', 'Add', 'Sell', 'Costs', 'Income', 'Revenue', 'Save', 'Load', 'Exit']:
         print("Please choose another option.")
         continue
     
@@ -119,6 +150,9 @@ while True:
     elif menu == 'Save':
         save_items()
         save_sales()
+
+    elif menu == 'Load':
+        load()
 
     elif menu == 'Exit':
         end()
