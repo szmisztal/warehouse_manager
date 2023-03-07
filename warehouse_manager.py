@@ -1,14 +1,37 @@
 import sys
 import csv
 
-items = {
-    'Milk': [120, 'l', 2.3],
-    'Sugar': [1000, 'kg', 3],
-    'Flour': [12000, 'kg', 1.2],
-    'Coffee': [25, 'kg', 40]
-}
-
+items = {}
 sold_items = {}
+
+if len(sys.argv) > 1:
+    filename = sys.argv[1]
+    try:
+        with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", newline='') as file:
+            reader = csv.reader(file)
+            headers = next(reader)
+            for row in reader:
+                key = row[0]
+                value1, value2, value3 = row[1:]
+                items[key] = [float(value1), value2, float(value3)]
+        print('File', filename, 'load.')
+        print("Remember to load sold items !")
+    except FileNotFoundError:
+        print("File not found: ", filename)
+else:
+    filename = input("Filename path: ?")
+    try:
+        with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", newline='') as file:
+            reader = csv.reader(file)
+            headers = next(reader)
+            for row in reader:
+                key = row[0]
+                value1, value2, value3 = row[1:]
+                items[key] = [float(value1), value2, float(value3)]
+        print('File', filename, 'load.')
+        print("Remember to load sold items !")
+    except FileNotFoundError:
+        print("File not found: ", filename)
 
 def get_items():
     print("Name\tQuantity\tUnit\tUnit Price (PLN)")
@@ -105,7 +128,6 @@ def load():
             key = row[0]
             value1, value2, value3 = row[1:]
             items[key] = [float(value1), value2, float(value3)]
-    print(items)
     
     sold_items.clear()
     with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\sales_items.csv", newline='') as file:
@@ -115,8 +137,7 @@ def load():
             key = row[0]
             value1, value2, value3 = row[1:]
             sold_items[key] = [float(value1), value2, float(value3)]
-    print(sold_items)
-    
+
     return
 
 def end():
