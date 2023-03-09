@@ -19,7 +19,7 @@ if len(sys.argv) > 1:
     except FileNotFoundError:
         print("File not found: ", filename)
 else:
-    filename = input("Filename path: ?")
+    filename = input("Filename path: ")
     try:
         with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", newline='') as file:
             reader = csv.reader(file)
@@ -43,38 +43,59 @@ def get_items():
     return
 
 def add_items():
-    new_item = input("Name ?: ")
-    value_0 = input("Quantity ?: ")
-    value_1 = input("Unit ?: ")
-    value_2 = input("Unit price ?: ")
-    if new_item in items.keys():
-        value_0 = float(items[new_item][0]) + float(value_0)    
-    items[new_item] = [value_0, value_1, value_2]
-    get_items()
+    while True:
+        try:
+            new_item = str(input("Name ?: "))
+            value_0 = float(input("Quantity ?: "))
+            value_1 = str(input("Unit ?: "))
+            value_2 = float(input("Unit price ?: "))
+            if new_item in items.keys():
+                value_0 = float(items[new_item][0]) + float(value_0)    
+            items[new_item] = [value_0, value_1, value_2]
+        except ValueError:
+            print("Name and unit must be only letters, quantity and unit price must be only numbers.")
+            continue
+        question = input("Do you want add another item ? 1 - Yes, 2 - No: ")
+        if question in ['1', 'yes', 'Yes']:
+            continue
+        elif question in ['2', 'no', 'No']:
+            get_items()
+            break
+        elif question not in ['1', 'yes', 'Yes', '2', 'no', 'No' ]:
+            print("Wrong value, try again.")
+            break
 
 def sell_items():
-    product = input("What product do you want to sell ?: ")            
-    product_quantity = input("How much ?: ")
-
-    if product in items.keys():
-        new_quantity = float(items[product][0]) - float(product_quantity)
-        items[product][0] = float(new_quantity)
-        get_items()
-            
-    elif product not in items.keys():
-        print("I do not have such a product.")
+    while True:
+        try:
+            product = str(input("What product do you want to sell ?: "))            
+            product_quantity = float(input("How much ?: "))
+            if product in items.keys():
+                new_quantity = float(items[product][0]) - float(product_quantity)
+                items[product][0] = float(new_quantity)
+            elif product not in items.keys():
+                print("I do not have such a product.")
     
-    if product not in sold_items.keys():
-        sold_items[product] = [product_quantity, items[product][1], items[product][2]]
-    
-    else:
-        sold_items[product] = [float(sold_items[product][0]) + float(product_quantity), sold_items[product][1], sold_items[product][2]]
-    
+            if product not in sold_items.keys():
+               sold_items[product] = [product_quantity, items[product][1], items[product][2]]
+            else:
+                sold_items[product] = [float(sold_items[product][0]) + float(product_quantity), sold_items[product][1], sold_items[product][2]]
+        except ValueError:
+            print("Name product must be only letters, quantity must be only numbers.")
+            continue
+        question = input("Do you want sell another item ? 1 - Yes, 2 - No: ")
+        if question in ['1', 'yes', 'Yes']:
+            continue
+        elif question in ['2', 'no', 'No']:
+            get_items()
+            break
+        elif question not in ['1', 'yes', 'Yes', '2', 'no', 'No' ]:
+            print("Wrong value, try again.")
+            break
     print('-----------------------------------------------------------')
     print('-----------------------------------------------------------')
     print("Sold items: ")  
     print("Name\tQuantity\tUnit\tUnit Price (PLN)")
-    
     for key, value in sold_items.items():
         print(key, '\t', value[0], '\t' * 2, value[1], '\t', value[2])
     print('-----------------------------------------------------------')
@@ -146,34 +167,34 @@ def end():
 
 while True:
     menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Revenue \n7 - Save \n8 - Load \n9 - Exit \n")
-    if menu not in ['Show', 'Add', 'Sell', 'Costs', 'Income', 'Revenue', 'Save', 'Load', 'Exit']:
+    if menu not in ['1', 'show', 'Show', '2', 'add', 'Add', '3', 'sell', 'Sell', '4', 'costs', 'Costs', '5', 'income', 'Income', '6', 'revenue', 'Revenue', '7', 'save', 'Save', '8', 'load', 'Load', '9', 'exit', 'Exit']:
         print("Please choose another option.")
         continue
     
-    elif menu == 'Show':
+    elif menu in ['1', 'show', 'Show']:
         get_items()
 
-    elif menu == 'Add':
+    elif menu in ['2', 'add', 'Add']:
         add_items()
     
-    elif menu == 'Sell':
+    elif menu in ['3', 'sell', 'Sell']:
         sell_items()
-    
-    elif menu == 'Costs':
+
+    elif menu in ['4', 'costs', 'Costs']:
         get_cost()
 
-    elif menu == 'Income':
+    elif menu in ['5', 'income', 'Income']:
         get_income()
 
-    elif menu == 'Revenue':
+    elif menu in ['6', 'revenue', 'Revenue']:
         show_revenue()
 
-    elif menu == 'Save':
+    elif menu in ['7', 'save', 'Save']:
         save_items()
         save_sales()
 
-    elif menu == 'Load':
+    elif menu in ['8', 'load', 'Load']:
         load()
 
-    elif menu == 'Exit':
+    elif menu in ['9', 'exit', 'Exit']:
         end()
