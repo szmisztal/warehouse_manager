@@ -4,34 +4,7 @@ import csv
 items = {}
 sold_items = {}
 
-if len(sys.argv) > 1:
-    filename = sys.argv[1]
-    try:
-        with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", newline='') as file:
-            reader = csv.reader(file)
-            headers = next(reader)
-            for row in reader:
-                key = row[0]
-                value1, value2, value3 = row[1:]
-                items[key] = [float(value1), value2, float(value3)]
-        print('File', filename, 'load.')
-        print("Remember to load sold items !")
-    except FileNotFoundError:
-        print("File not found: ", filename)
-else:
-    filename = input("Filename path: ")
-    try:
-        with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", newline='') as file:
-            reader = csv.reader(file)
-            headers = next(reader)
-            for row in reader:
-                key = row[0]
-                value1, value2, value3 = row[1:]
-                items[key] = [float(value1), value2, float(value3)]
-        print('File', filename, 'load.')
-        print("Remember to load sold items !")
-    except FileNotFoundError:
-        print("File not found: ", filename)
+print("REMEMBER TO LOAD FILES !")
 
 def get_items():
     print("Name\tQuantity\tUnit\tUnit Price (PLN)")
@@ -123,7 +96,8 @@ def show_revenue():
     return
 
 def save_items():
-    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", 'w', newline='') as file:
+    filename = "warehouse_items.csv"
+    with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Product', 'Quantity', 'Unit', 'Unit Price'])
         for key, value in items.items():
@@ -132,7 +106,8 @@ def save_items():
     print("Datas saved.")
 
 def save_sales():
-    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\sales_items.csv", 'w', newline='') as file:
+    filename = "sales_items.csv"
+    with open(filename, 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(['Product', 'Quantity', 'Unit', 'Unit Price'])
         for key, value in sold_items.items():
@@ -142,7 +117,7 @@ def save_sales():
 
 def load():
     items.clear()
-    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\warehouse_items.csv", newline='') as file:
+    with open("warehouse_items.csv", newline='') as file:
         reader = csv.reader(file)
         headers = next(reader)
         for row in reader:
@@ -151,7 +126,7 @@ def load():
             items[key] = [float(value1), value2, float(value3)]
     
     sold_items.clear()
-    with open(r"c:\users\szmis\onedrive\pulpit\kodilla\python\zadania\warehouse\sales_items.csv", newline='') as file:
+    with open("sales_items.csv", newline='') as file:
         reader = csv.reader(file)
         headers = next(reader)
         for row in reader:
