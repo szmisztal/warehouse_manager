@@ -4,8 +4,6 @@ import csv
 items = {}
 sold_items = {}
 
-print("REMEMBER TO LOAD FILES !")
-
 def get_items():
     print("Name\tQuantity\tUnit\tUnit Price (PLN)")
     print('-----------------------------------------------------------')
@@ -139,6 +137,8 @@ def load():
 def end():
     print('Bye !')
     sys.exit()
+
+load()
 
 while True:
     menu = input("What would you do ?: \n1 - Show \n2 - Add \n3 - Sell \n4 - Costs \n5 - Income \n6 - Revenue \n7 - Save \n8 - Load \n9 - Exit \n")
